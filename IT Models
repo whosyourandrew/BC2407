@@ -1,0 +1,11 @@
+ITJ.df <- as.data.frame(t(ITJ.tfidf.df))
+    #ITJ.df <- cbind(Salary = ITJobs$SalaryNormalized, data.frame(ITJ.df))#
+    x <- model.matrix(Salary~., ITJ.tfidf.df)
+    y <- ITJ.tfidf.df$Salary
+    cv.out <- cv.glmnet(x,y,alpha=1,family='gaussian',type.measure ='mse')
+    #plot(cv.out)
+    lambda_min <- cv.out$lambda.min
+    lambda_1se <- cv.out$lambda.1se
+    #coef(cv.out, s = lambda_1se)
+    mse.min <- cv.out$cvm[cv.out$lambda == cv.out$lambda.min]
+    sqrt(mse.min)
